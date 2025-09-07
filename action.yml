@@ -1,1 +1,49 @@
+  runs:
+    - uses: actions/checkout@v4
 
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.13"
+          
+    - name: Set up rust
+      uses: actions-rust-lang/setup-rust-toolchain@v1
+
+    - name: Set up goboscript
+      run: |
+        export PATH="$PATH:~/.local/bin"
+        export PATH="$PATH:~/.cargo/bin"
+          
+        cargo install --git https://github.com/aspizu/goboscript
+          
+        # above code is from:
+        # run: curl -fsSL https://raw.githubusercontent.com/aspizu/goboscript/refs/heads/main/install.sh | sh 
+        # but backpack and sb2gs have been removed
+    - name: Install dependencies for testing
+      run: |
+        python -m pip install --upgrade pip
+        pip install -U turbowarp-cli
+        pip install -U inflator
+
+    - name: Install playwright
+      run: playwright install --with-deps chromium
+      
+    - name: Inflate
+      run: |
+        ls -l
+          
+        inflate install .  # inflate gobo
+        cd test
+        inflate install -r inflator.toml  # inflate test dependencies, e.g. assert
+        inflate
+          
+    - name: Build
+      run: |
+        cd test
+        goboscript build
+      
+    - name: Test with tw-cli
+      run: |
+        cd test
+        ls -l
+        twcli run ./test.sb3 -R

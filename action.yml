@@ -8,6 +8,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up goboscript
+      shell: bash
       run: |
         export PATH="$PATH:~/.local/bin"
         export PATH="$PATH:~/.cargo/bin"
@@ -18,15 +19,18 @@ runs:
       # run: curl -fsSL https://raw.githubusercontent.com/aspizu/goboscript/refs/heads/main/install.sh | sh
       # but backpack and sb2gs have been removed
     - name: Install dependencies for testing
+      shell: bash
       run: |
         python -m pip install --upgrade pip
         pip install -U turbowarp-cli
         pip install -U inflator
 
     - name: Install playwright
+      shell: bash
       run: playwright install --with-deps chromium
 
     - name: Inflate
+      shell: bash
       run: |
         ls -l
         
@@ -36,12 +40,15 @@ runs:
         inflate
 
     - name: Build
+      shell: bash
       run: |
         cd test
         goboscript build
 
     - name: Test with tw-cli
+      shell: bash
       run: |
         cd test
         ls -l
         twcli run ./test.sb3 -R
+

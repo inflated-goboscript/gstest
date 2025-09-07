@@ -3,42 +3,45 @@ description: Action that tests your goboscript repository's /test/ project, and 
 branding:
   icon: check-circle
   color: yellow
+  
 runs:
-  - name: Set up goboscript
-    run: |
-      export PATH="$PATH:~/.local/bin"
-      export PATH="$PATH:~/.cargo/bin"
-      
-      cargo install --git https://github.com/aspizu/goboscript
-      
-    # above code is from:
-    # run: curl -fsSL https://raw.githubusercontent.com/aspizu/goboscript/refs/heads/main/install.sh | sh 
-    # but backpack and sb2gs have been removed
-  - name: Install dependencies for testing
-    run: |
-      python -m pip install --upgrade pip
-      pip install -U turbowarp-cli
-      pip install -U inflator
+  using: "composite"
+  steps:
+    - name: Set up goboscript
+      run: |
+        export PATH="$PATH:~/.local/bin"
+        export PATH="$PATH:~/.cargo/bin"
+        
+        cargo install --git https://github.com/aspizu/goboscript
 
-  - name: Install playwright
-    run: playwright install --with-deps chromium
-  
-  - name: Inflate
-    run: |
-      ls -l
-      
-      inflate install .  # inflate gobo
-      cd test
-      inflate install -r inflator.toml  # inflate test dependencies, e.g. assert
-      inflate
-      
-  - name: Build
-    run: |
-      cd test
-      goboscript build
-  
-  - name: Test with tw-cli
-    run: |
-      cd test
-      ls -l
-      twcli run ./test.sb3 -R
+      # above code is from:
+      # run: curl -fsSL https://raw.githubusercontent.com/aspizu/goboscript/refs/heads/main/install.sh | sh
+      # but backpack and sb2gs have been removed
+    - name: Install dependencies for testing
+      run: |
+        python -m pip install --upgrade pip
+        pip install -U turbowarp-cli
+        pip install -U inflator
+
+    - name: Install playwright
+      run: playwright install --with-deps chromium
+
+    - name: Inflate
+      run: |
+        ls -l
+        
+        inflate install .  # inflate gobo
+        cd test
+        inflate install -r inflator.toml  # inflate test dependencies, e.g. assert
+        inflate
+
+    - name: Build
+      run: |
+        cd test
+        goboscript build
+
+    - name: Test with tw-cli
+      run: |
+        cd test
+        ls -l
+        twcli run ./test.sb3 -R

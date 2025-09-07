@@ -1,4 +1,5 @@
-name: gstest
+name: goboscript-test
+description: Action that tests your goboscript repository's /test/ project, and installs dependencies using inflator.
 runs:
   - uses: actions/checkout@v4
 

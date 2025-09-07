@@ -1,7 +1,8 @@
 name: goboscript-test
 description: Action that tests your goboscript repository's /test/ project, and installs dependencies using inflator.
-icon: check-circle
-color: yellow
+branding:
+  icon: check-circle
+  color: yellow
 runs:
   - uses: actions/checkout@v4
 

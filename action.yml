@@ -58,5 +58,5 @@ runs:
       run: |
         cd test
         ls -l
-        twcli run ./test.sb3 -R
+        twcli run ./test.sb3
 

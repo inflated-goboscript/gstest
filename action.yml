@@ -9,7 +9,10 @@ inputs:
     description: 'Token used by inflator to access the GTP with a higher rate limit. Does not need any permissions.'
     required: false
     default: false
-  
+  suffix:
+    description: 'Extra string to pass to twcli, e.g. for inputs, set it to -i a b c'
+    required: false
+    default: ''
 runs:
   using: "composite"
   
@@ -71,5 +74,5 @@ runs:
       run: |
         cd test
         ls -l
-        twcli run ./test.sb3
+        twcli run ./test.sb3 ${{ inputs.suffix }}
 

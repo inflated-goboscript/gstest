@@ -6,7 +6,15 @@ branding:
   
 runs:
   using: "composite"
+  permissions:
+    contents: write
+  
   steps:
+    - name: Test with option 'build'
+      shell: bash
+      run: |
+        echo ${INPUT_BUILD}
+  
     - name: Set up Python 3.13
       uses: actions/setup-python@v3
       with:
@@ -52,6 +60,12 @@ runs:
       run: |
         cd test
         goboscript build
+
+    - name: Commit test.sb3
+      uses: EndBug/add-and-commit@v9
+      with:
+        add: "test/test.sb3 --force"
+        message: 'build: test.sb3'
 
     - name: Test with tw-cli
       shell: bash

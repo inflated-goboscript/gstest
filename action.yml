@@ -3,6 +3,12 @@ description: Action that tests your goboscript repository's /test/ project, and 
 branding:
   icon: check-circle
   color: yellow
+
+inputs:
+  build:
+    description: 'Whether to commit sb3 or not'
+    required: false
+    default: true
   
 runs:
   using: "composite"
@@ -11,7 +17,7 @@ runs:
     - name: Test with option 'build'
       shell: bash
       run: |
-        echo ${INPUT_BUILD}
+        echo "${{ inputs.build }}"
   
     - name: Set up Python 3.13
       uses: actions/setup-python@v3
@@ -60,6 +66,7 @@ runs:
         goboscript build
 
     - name: Commit test.sb3
+      if: ${{ inputs.build }}
       uses: EndBug/add-and-commit@v9
       with:
         add: "test/test.sb3 --force"

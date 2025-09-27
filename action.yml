@@ -9,6 +9,10 @@ inputs:
     description: 'Whether to commit sb3 or not'
     required: false
     default: true
+  token:
+    description: 'Token used by inflator to access the GTP with a higher rate limit. Does not need any permissions.'
+    required: false
+    default: false
   
 runs:
   using: "composite"
@@ -45,6 +49,12 @@ runs:
         pip install -U turbowarp-cli
         pip install -U inflator
 
+    - name: Set inflator token
+      shell: bash
+      if: ${{ inputs.token }}
+      run: |
+        inflate set auth-token ${{ inputs.token }}
+        
     - name: Install playwright
       shell: bash
       run: playwright install --with-deps chromium

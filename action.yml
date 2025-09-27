@@ -6,8 +6,6 @@ branding:
   
 runs:
   using: "composite"
-  permissions:
-    contents: write
   
   steps:
     - name: Test with option 'build'

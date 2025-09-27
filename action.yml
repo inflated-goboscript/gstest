@@ -5,10 +5,6 @@ branding:
   color: yellow
 
 inputs:
-  build:
-    description: 'Whether to commit sb3 or not'
-    required: false
-    default: true
   token:
     description: 'Token used by inflator to access the GTP with a higher rate limit. Does not need any permissions.'
     required: false
@@ -69,13 +65,6 @@ runs:
       run: |
         cd test
         goboscript build
-
-    - name: Commit test.sb3
-      if: ${{ inputs.build }}
-      uses: EndBug/add-and-commit@v9
-      with:
-        add: "test/test.sb3 --force"
-        message: 'build: test.sb3'
 
     - name: Test with tw-cli
       shell: bash
